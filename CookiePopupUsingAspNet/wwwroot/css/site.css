@@ -1,0 +1,33 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+.hidden {
+    display: none;
+    visibility: hidden;
+}
+
+#CookiePopup {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translate(-50%, 0); /*centers image*/
+}
+#CookiePopupInner {
+    padding: 0 25px 0 25px;
+}

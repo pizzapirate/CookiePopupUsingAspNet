@@ -1,0 +1,58 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+    <div class="container-fluid">
+      <div class="row justify-content-md-center">
+        <div class="col col-xl-4 col-lg-5 col-m-6 col-sm-8">
+        
+        <div class="row my-5">
+            <div class="">
+                <h1>Cookies Popup Test</h1>
+                <p>
+                    This website is just a test to familiarize myself with JavaScript cookies and how to implement a popup.
+                </p>
+                <p>
+                    If you can't see the popup when loading the page, that means you have already accepted the cookie consent. If you want to see the popup again, you can delete the cookie by going to your browser settings and deleting the cookie.
+                </p>
+                <p>
+                    Or, click the button below.
+                </p>
+            </div>
+        </div>
+
+        <form asp-controller="Home" asp-action="RemoveCookies">
+            <div class="my-5">
+                <button type="submit" class="btn btn-dark">Cookie</button>
+            </div>
+        </form>
+
+        @{
+                if (ViewData["HasAcceptedCookies"] != null) {
+                    <p>Required Cookies: @ViewData["RequiredCookies"]</p>
+                    <p>Personalization Cookies: @ViewData["PersonalizationCookies"]</p>
+                    <p>Third Party Cookies: @ViewData["ThirdPartyCookies"]</p>
+                }
+                else {
+                    <p>User has not accepted any cookies.</p>
+                }
+        }
+        
+        
+        <div class="my-5">
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras gravida placerat magna. Phasellus porttitor, augue a imperdiet lobortis, neque elit elementum ipsum, eget efficitur leo lorem ut lorem. Etiam sit amet varius nunc. Quisque tempor, justo eu congue vestibulum, nisi mi fringilla justo, sit amet porta dolor sapien a lorem. Nullam quis blandit risus, vel bibendum diam. Phasellus eu gravida neque, quis vestibulum ante. Phasellus scelerisque sed elit et facilisis. Fusce semper dui sit amet tellus efficitur interdum. Mauris dui est, auctor eu bibendum at, luctus non purus. Integer sit amet velit mattis, imperdiet ex a, dictum nibh. Mauris luctus orci est, ut volutpat nunc tincidunt sed. Aenean vel venenatis justo.
+
+                In faucibus risus vel posuere viverra. Nam quis nisi quis velit dapibus hendrerit. Nunc commodo, sem ut efficitur dignissim, sem tellus accumsan arcu, vel sagittis nunc leo in diam. Proin posuere velit ut tempus porta. Proin dictum ligula velit, in tempor sapien molestie sit amet. Proin malesuada, nulla non dapibus mattis, lorem massa mattis lacus, eu rutrum felis lorem eget lectus. Ut gravida commodo auctor. Phasellus ut leo lorem.
+
+                Curabitur semper commodo interdum. Ut ut commodo urna, in varius mauris. Ut fermentum sed odio non ullamcorper. Nulla vitae faucibus lectus, sit amet pellentesque mauris. Aliquam erat volutpat. Phasellus pharetra tristique sapien, eget vestibulum odio fringilla non. Praesent porta id tellus sed porta.
+
+                Morbi eu turpis placerat, aliquet risus sit amet, tincidunt ligula. Integer ultricies tempor nisl, in eleifend quam placerat sed. Nam augue mi, blandit et felis eget, porttitor sodales urna. Sed condimentum porta nisl nec varius. Morbi eget neque sem. Pellentesque congue ut elit nec rutrum. Aenean a nisi ac risus finibus vestibulum in ut leo. Morbi laoreet enim tellus. Etiam varius laoreet massa, at consectetur risus sollicitudin in. Proin pulvinar diam vel lacus ultricies iaculis. Vestibulum blandit egestas turpis, ut dapibus felis viverra vel.
+
+                Aenean quis nisi ut risus fringilla commodo vel sed eros. Nullam id hendrerit eros, eget sagittis mauris. Integer rutrum eu sapien in maximus. Pellentesque sit amet nisi purus. Nunc et sodales quam, vitae sollicitudin sapien. Duis sed ipsum porta, mollis metus et, aliquam sapien. Mauris ac maximus nunc. Quisque eros leo, semper vitae dui eget, volutpat facilisis turpis. Nullam pretium porta justo eget tristique. Proin elementum erat sed ornare commodo. Sed tincidunt, velit vel sodales mollis, purus ex tempor sem, in commodo elit dolor a magna. Quisque euismod iaculis iaculis. Proin fermentum sollicitudin nisl, et consectetur eros finibus sit amet. Sed ac viverra diam.
+            </p>
+        </div>
+
+        </div>
+      </div>
+    </div>
