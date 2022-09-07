@@ -17,12 +17,24 @@ namespace CookiePopupUsingAspNet.Controllers
 
         public IActionResult Index()
         {
-            if (Request.Cookies["CookiePopup"] != null) //checks the existance of the cookie
+            if (Request.Cookies["RequiredCookies"] != null) //checks the existance of the cookie
             {
                 ViewData["HasAcceptedCookies"] = "yes";
-                ViewData["RequiredCookies"] = HttpContext.User.Claims.First(c => c.Type == "required_cookies").Value;
-                ViewData["PersonalizationCookies"] = HttpContext.User.Claims.First(c => c.Type == "personalization_cookies").Value;
-                ViewData["ThirdPartyCookies"] = HttpContext.User.Claims.First(c => c.Type == "thirdparty_cookies").Value;
+                ViewData["RequiredCookies"] = "Accepted";
+            }
+            if (Request.Cookies["PersonalizationCookies"] != null)
+            {
+                ViewData["HasAcceptedCookies"] = "yes";
+                ViewData["PersonalizationCookies"] = "Accepted";
+            }
+            if (Request.Cookies["ThirdPartyCookies"] != null)
+            {
+                ViewData["HasAcceptedCookies"] = "yes";
+                ViewData["ThirdPartyCookies"] = "Accepted";
+            }
+            if (Request.Cookies["UserRejectedAll"] != null)
+            {
+                ViewData["HasAcceptedCookies"] = "no";
             }
 
             return View();
@@ -30,41 +42,57 @@ namespace CookiePopupUsingAspNet.Controllers
 
         public async Task<IActionResult> CookieAcceptButton(IFormCollection form)
         {
-
-            string requiredCookiesSwitch = "off";
-            string personalizationCookiesSwitch = "off";
-            string thirdpartyCookiesSwitch = "off";
-
+        
             if (form["RequiredCookiesSwitch"] == "on")
             {
-                requiredCookiesSwitch = "on";
+                var _claim = new List<Claim>
+                {
+                    new Claim("required_cookies", "on")
+                };
+                var _claimIdentity = new ClaimsIdentity(_claim, "RequiredCookies");
+                ClaimsPrincipal _claimsPrincipal = new ClaimsPrincipal(_claimIdentity); //security context is created incide principal
+                await HttpContext.SignInAsync("RequiredCookies", _claimsPrincipal); //serealize the claimsprinciple and encrypt it and then save it in cookie as HttpContext
             }
             if (form["PersonalizationCookiesSwitch"] == "on")
             {
-                personalizationCookiesSwitch = "on";
+                var _claim = new List<Claim>
+                {
+                    new Claim("personalization_cookies", "on")
+                };
+                var _claimIdentity = new ClaimsIdentity(_claim, "PersonalizationCookies");
+                ClaimsPrincipal _claimsPrincipal = new ClaimsPrincipal(_claimIdentity); 
+                await HttpContext.SignInAsync("PersonalizationCookies", _claimsPrincipal); 
             }
             if (form["ThirdPartyCookiesSwitch"] == "on")
             {
-                thirdpartyCookiesSwitch = "on";
-            }
-
-            //creating security context using System.Security.Claims and ClaimsPrincipal 
-            var claims = new List<Claim>
+                var _claim = new List<Claim>
                 {
-                    new Claim("required_cookies", requiredCookiesSwitch), //if = "on" then true, if "off" then user did not accept. 
-                    new Claim("personalization_cookies", personalizationCookiesSwitch),
-                    new Claim("thirdparty_cookies", thirdpartyCookiesSwitch),
+                    new Claim("thirdparty_cookies", "on")
                 };
-            var identity = new ClaimsIdentity(claims, "CookiePopup");
-            ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(identity); //security context is created incide principal
+                var _claimIdentity = new ClaimsIdentity(_claim, "ThirdPartyCookies");
+                ClaimsPrincipal _claimsPrincipal = new ClaimsPrincipal(_claimIdentity); 
+                await HttpContext.SignInAsync("ThirdPartyCookies", _claimsPrincipal); 
+            }
+            if (form["RequiredCookiesSwitch"] != "on" && form["PersonalizationCookiesSwitch"] != "on" && form["ThirdPartyCookiesSwitch"] != "on")
+            {
+                var _claim = new List<Claim>
+                {
+                    new Claim("rejected_all_cookies", "on")
+                };
+                var _claimIdentity = new ClaimsIdentity(_claim, "UserRejectedAll");
+                ClaimsPrincipal _claimsPrincipal = new ClaimsPrincipal(_claimIdentity);
+                await HttpContext.SignInAsync("UserRejectedAll", _claimsPrincipal);
 
-            await HttpContext.SignInAsync("CookiePopup", claimsPrincipal); //serealize the claimsprinciple and encrypt it and then save it in cookie as HttpContext
+            }
 
             return RedirectToAction("Index", "Home");
         }
         public async Task<IActionResult> RemoveCookies()
         {
-            await HttpContext.SignOutAsync("CookiePopup"); //removes cookie from browser
+            await HttpContext.SignOutAsync("RequiredCookies"); //removes cookie from browser
+            await HttpContext.SignOutAsync("PersonalizationCookies");
+            await HttpContext.SignOutAsync("ThirdPartyCookies");
+            await HttpContext.SignOutAsync("UserRejectedAll");
             return RedirectToAction("Index", "Home");
         }
 

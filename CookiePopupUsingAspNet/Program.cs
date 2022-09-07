@@ -9,11 +9,29 @@ internal class Program
 
 
         //adding the necessary cookie service handler
-        builder.Services.AddAuthentication("CookiePopup").AddCookie("CookiePopup", options =>
+        builder.Services.AddAuthentication("RequiredCookies").AddCookie("RequiredCookies", options =>
         {
-            options.Cookie.Name = "CookiePopup";
+            options.Cookie.Name = "RequiredCookies";
             options.ExpireTimeSpan = TimeSpan.FromDays(365);
             options.Cookie.MaxAge = TimeSpan.FromDays(365);
+        });
+
+        builder.Services.AddAuthentication("PersonalizationCookies").AddCookie("PersonalizationCookies", options =>
+        {
+            options.Cookie.Name = "PersonalizationCookies";
+            options.ExpireTimeSpan = TimeSpan.FromDays(365);
+            options.Cookie.MaxAge = TimeSpan.FromDays(365);
+        });
+
+        builder.Services.AddAuthentication("ThirdPartyCookies").AddCookie("ThirdPartyCookies", options =>
+        {
+            options.Cookie.Name = "ThirdPartyCookies";
+            options.ExpireTimeSpan = TimeSpan.FromDays(365);
+            options.Cookie.MaxAge = TimeSpan.FromDays(365);
+        });
+        builder.Services.AddAuthentication("UserRejectedAll").AddCookie("UserRejectedAll", options =>
+        {
+            options.Cookie.Name = "UserRejectedAll"; //not stating expiretimespan/maxage so that cookie is session only. 
         });
 
 

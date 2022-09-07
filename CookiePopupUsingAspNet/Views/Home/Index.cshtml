@@ -28,13 +28,39 @@
         </form>
 
         @{
-                if (ViewData["HasAcceptedCookies"] != null) {
-                    <p>Required Cookies: @ViewData["RequiredCookies"]</p>
-                    <p>Personalization Cookies: @ViewData["PersonalizationCookies"]</p>
-                    <p>Third Party Cookies: @ViewData["ThirdPartyCookies"]</p>
+                if ((string)ViewData["HasAcceptedCookies"] == "yes")
+                {
+                    if (ViewData["RequiredCookies"] != null) {
+                        <p>Required Cookies: @ViewData["RequiredCookies"]</p>
+                    }
+                    else {
+                        <p>Required Cookies: Not Accepted</p>
+                    }
+
+                    if (ViewData["PersonalizationCookies"] != null) 
+                    {
+                        <p>Personalization Cookies: @ViewData["PersonalizationCookies"]</p>
+                    }
+                    else {
+                        <p>Personalization Cookies: Not Accepted</p>
+                    }
+
+                    if (ViewData["ThirdPartyCookies"] != null)
+                    {
+                        <p>Third Party Cookies: @ViewData["ThirdPartyCookies"]</p>
+                    }
+                    else {
+                        <p>Third Party Cookies: Not Accepted</p>
+                    }
+
+
                 }
-                else {
-                    <p>User has not accepted any cookies.</p>
+                if ((string)ViewData["HasAcceptedCookies"] == "no") {
+                    <p>User has rejected all cookies.</p>
+                }
+                else if ((string)ViewData["HasAcceptedCookies"] == null)
+                {
+                    <p>User has not accepted any cookies yet.</p>
                 }
         }
         
